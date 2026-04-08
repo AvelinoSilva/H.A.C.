@@ -5,8 +5,9 @@ import { autorizar } from '../middlewares/roleMiddleware.js';
 
 const router = express.Router();
 
-router.get('/', autenticar, controller.listarProdutos);
-router.get('/:id', autenticar, controller.buscarProduto);
+router.get('/', controller.listarProdutos);
+router.get('/:id', controller.buscarProduto);
+router.get('/:id/relacionados', controller.obterRelacionados);
 
 router.post('/', autenticar, autorizar('ADMIN'), controller.criarProduto);
 router.put('/:id', autenticar, autorizar('ADMIN'), controller.atualizarProduto);

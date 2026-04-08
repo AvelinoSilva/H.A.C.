@@ -74,7 +74,7 @@ const listarProdutos = async (filtros = {}) => {
   
   // Chamada real para API
   const response = await clienteApi.get('/produtos', { params: filtros });
-  return response.data;
+  return response.data.data || response.data;
 };
 
 /**
@@ -95,7 +95,7 @@ const obterProdutoPorId = async (id) => {
   }
   
   const response = await clienteApi.get(`/produtos/${id}`);
-  return response.data;
+  return response.data.data || response.data;
 };
 
 /**
@@ -117,7 +117,7 @@ const obterRelacionados = async (produto, limite = 4) => {
     params: { limite }
   });
 
-  return response.data;
+  return response.data.data || response.data;
 };
 
 export const produtosServico = {

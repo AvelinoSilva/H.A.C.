@@ -107,7 +107,7 @@ const listarPedidos = async () => {
 
   // Integração com API real
   const response = await clienteApi.get('/pedidos');
-  return response.data;
+  return response.data.data || response.data;
 };
 
 /**
@@ -128,9 +128,9 @@ const listarPedidosDoUsuario = async (usuarioId) => {
   }
 
   // Integração futura com API real
-  const response = await clienteApi.get('/pedidos');
+  const response = await clienteApi.get('/pedidos/meus-pedidos');
 
-  return response.data;
+  return response.data.data || response.data;
 };
 
 /**
@@ -153,7 +153,7 @@ const buscarPedidoPorId = async (id) => {
   // Integração com API real
   const response = await clienteApi.get(`/pedidos/${id}`);
 
-  return response.data;
+  return response.data.data || response.data;
 };
 
 /**
@@ -260,7 +260,7 @@ const criarPedidoAPartirDoCarrinho = async (dadosCheckout, itensCarrinho, usuari
     itensCarrinho
   });
 
-  return response.data;
+  return response.data.data || response.data;
 };
 
 /**

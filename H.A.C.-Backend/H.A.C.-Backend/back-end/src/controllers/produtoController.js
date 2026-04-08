@@ -15,8 +15,8 @@ export const criarProduto = (req, res, next) => {
 
 export const listarProdutos = (req, res, next) => {
   try {
-    const { nome } = req.query;
-    const produtos = service.listar(nome);
+    const filtros = req.query;
+    const produtos = service.listar(filtros);
     res.json({
       success: true,
       data: produtos,
@@ -34,6 +34,20 @@ export const buscarProduto = (req, res, next) => {
       success: true,
       data: produto,
       message: "Produto encontrado"
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const obterRelacionados = (req, res, next) => {
+  try {
+    const { limite } = req.query;
+    const relacionados = service.listarRelacionados(req.params.id, parseInt(limite) || 4);
+    res.json({
+      success: true,
+      data: relacionados,
+      message: "Produtos relacionados recuperados com sucesso"
     });
   } catch (err) {
     next(err);

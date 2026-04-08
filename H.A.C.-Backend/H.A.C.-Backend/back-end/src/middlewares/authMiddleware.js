@@ -1,9 +1,8 @@
 import jwt from 'jsonwebtoken';
 
-const SECRET = "sua-chave-secreta-muito-forte-2026"; // mesma chave usada no usuarioService
-
 /* Verifica se o token foi enviado e se é válido */
 export const autenticar = (req, res, next) => {
+  const SECRET = process.env.JWT_SECRET || "sua-chave-secreta-muito-forte-2026";
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {

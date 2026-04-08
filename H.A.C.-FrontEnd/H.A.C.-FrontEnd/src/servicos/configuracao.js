@@ -16,7 +16,7 @@ export const CONFIG = {
   // Se no .env estiver como 'false', usa API real
   // Caso contrário, usa mocks
   USE_MOCKS_AUTH: import.meta.env.VITE_USE_MOCKS_AUTH !== 'false',
-  USE_MOCKS_PRODUTOS: import.meta.env.VITE_USE_MOCKS_PRODUTOS !== 'true',
+  USE_MOCKS_PRODUTOS: import.meta.env.VITE_USE_MOCKS_PRODUTOS !== 'false',
   USE_MOCKS_PEDIDOS: import.meta.env.VITE_USE_MOCKS_PEDIDOS !== 'false',
   
   // Chaves de localStorage utilizadas pela aplicação

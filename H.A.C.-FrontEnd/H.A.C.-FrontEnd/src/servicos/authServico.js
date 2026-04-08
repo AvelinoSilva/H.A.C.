@@ -112,7 +112,18 @@ const cadastrar = async (dadosUsuario) => {
 
   // Integração com API real
   const response = await clienteApi.post('/auth/register', dadosUsuario);
-  return response.data;
+  
+  const { token, usuario, user, data } = response.data;
+  const usuarioBackend = usuario || user || data || response.data.data;
+
+  // Salvar token e usuário se o backend retornar login automático
+  if (token) {
+    localStorage.setItem(CONFIG.STORAGE_KEYS.TOKEN, token);
+  }
+
+  localStorage.setItem(CONFIG.STORAGE_KEYS.USUARIO_LOGADO, JSON.stringify(usuarioBackend));
+  
+  return usuarioBackend;
 };
 
 /**
