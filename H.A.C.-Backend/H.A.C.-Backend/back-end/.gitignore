@@ -1,0 +1,22 @@
+# Dependências
+node_modules/
+dist/
+build/
+
+# Arquivos de ambiente (MUITO IMPORTANTE)
+.env
+
+# Logs
+*.log
+npm-debug.log*
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos temporários do editor
+.vscode/
+.idea/
+
+# Cache
+*.cache
