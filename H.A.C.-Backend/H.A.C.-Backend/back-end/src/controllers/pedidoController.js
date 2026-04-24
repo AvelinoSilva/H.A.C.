@@ -1,28 +1,32 @@
 import * as service from '../services/pedidoService.js';
+import { enviarParaFila } from '../services/filaService.js';
 
-export const criarPedido = (req, res, next) => {
+export const criarPedido = async (req, res, next) => {
   try {
     const { dadosCheckout, itensCarrinho } = req.body;
     const usuario = req.user;
 
-    const pedido = service.criar({
+    const pedido = await service.criar({
       ...dadosCheckout,
       itens: itensCarrinho
     }, usuario);
 
+    // Enviar para a fila RabbitMQ para processamento assíncrono
+    await enviarParaFila(pedido);
+
     res.status(201).json({
       success: true,
       data: pedido,
-      message: "Pedido criado com sucesso"
+      message: "Pedido criado e enviado para processamento assíncrono"
     });
   } catch (err) {
     next(err);
   }
 };
 
-export const listarPedidos = (req, res, next) => {
+export const listarPedidos = async (req, res, next) => {
   try {
-    const pedidos = service.listar();
+    const pedidos = await service.listar();
     res.json({
       success: true,
       data: pedidos,
@@ -33,10 +37,10 @@ export const listarPedidos = (req, res, next) => {
   }
 };
 
-export const listarPedidosDoUsuario = (req, res, next) => {
+export const listarPedidosDoUsuario = async (req, res, next) => {
   try {
     const usuarioId = req.user.id;
-    const pedidos = service.listarPorUsuario(usuarioId);
+    const pedidos = await service.listarPorUsuario(usuarioId);
     res.json({
       success: true,
       data: pedidos,
@@ -47,11 +51,10 @@ export const listarPedidosDoUsuario = (req, res, next) => {
   }
 };
 
-export const buscarPedido = (req, res, next) => {
+export const buscarPedido = async (req, res, next) => {
   try {
-    const pedido = service.buscar(req.params.id);
-    
-    // Verifica se o pedido pertence ao usuário ou se é admin
+    const pedido = await service.buscar(req.params.id);
+
     if (pedido.usuarioId !== req.user.id && req.user.role !== 'ADMIN') {
       const error = new Error("Acesso não autorizado a este pedido");
       error.status = 403;
@@ -68,10 +71,10 @@ export const buscarPedido = (req, res, next) => {
   }
 };
 
-export const atualizarStatus = (req, res, next) => {
+export const atualizarStatus = async (req, res, next) => {
   try {
     const { novoStatus, eventoInfo } = req.body;
-    const pedido = service.atualizarStatus(req.params.id, novoStatus, eventoInfo);
+    const pedido = await service.atualizarStatus(req.params.id, novoStatus, eventoInfo);
     res.json({
       success: true,
       data: pedido,

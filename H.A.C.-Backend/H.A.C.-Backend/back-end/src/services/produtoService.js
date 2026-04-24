@@ -1,20 +1,20 @@
 import * as Produto from '../models/produtoModel.js';
 
-export const criar = (dados) => {
+export const criar = async (dados) => {
   if (!dados?.nome?.trim()) {
-    const error = new Error("Nome √© obrigat√≥rio");
+    const error = new Error("Nome È obrigatÛrio");
     error.status = 400;
     throw error;
   }
 
   if (!dados.preco || typeof dados.preco !== 'number' || dados.preco <= 0) {
-    const error = new Error("Pre√ßo deve ser um n√∫mero maior que zero");
+    const error = new Error("PreÁo deve ser um n˙mero maior que zero");
     error.status = 400;
     throw error;
   }
 
   if (dados.estoque !== undefined && (typeof dados.estoque !== 'number' || dados.estoque < 0)) {
-    const error = new Error("Estoque deve ser um n√∫mero maior ou igual a zero");
+    const error = new Error("Estoque deve ser um n˙mero maior ou igual a zero");
     error.status = 400;
     throw error;
   }
@@ -22,18 +22,18 @@ export const criar = (dados) => {
   return Produto.criarProduto(dados);
 };
 
-export const listar = (filtros = {}) => {
-  let produtos = Produto.listarProdutos();
+export const listar = async (filtros = {}) => {
+  let produtos = await Produto.listarProdutos();
 
   if (filtros.nome?.trim()) {
     const termo = filtros.nome.toLowerCase().trim();
-    produtos = produtos.filter(p => p.nome.toLowerCase().includes(termo));
+    produtos = produtos.filter(p => p.nome?.toLowerCase().includes(termo));
   }
 
   if (filtros.busca?.trim()) {
     const termo = filtros.busca.toLowerCase().trim();
     produtos = produtos.filter(p => 
-      p.nome.toLowerCase().includes(termo) || 
+      p.nome?.toLowerCase().includes(termo) || 
       (p.marca && p.marca.toLowerCase().includes(termo))
     );
   }
@@ -54,7 +54,6 @@ export const listar = (filtros = {}) => {
     produtos = produtos.filter(p => p.marca === filtros.marca);
   }
 
-  // Ordena√ß√£o
   if (filtros.ordenacao) {
     switch (filtros.ordenacao) {
       case 'menor_preco':
@@ -77,65 +76,63 @@ export const listar = (filtros = {}) => {
   return produtos;
 };
 
-export const buscar = (id) => {
+export const buscar = async (id) => {
   if (!id || isNaN(Number(id))) {
-    const error = new Error("ID inv√°lido");
+    const error = new Error("ID inv·lido");
     error.status = 400;
     throw error;
   }
 
-  const produto = Produto.buscarPorId(id);
+  const produto = await Produto.buscarPorId(id);
   if (!produto) {
-    const error = new Error("Produto n√£o encontrado");
+    const error = new Error("Produto n„o encontrado");
     error.status = 404;
     throw error;
   }
   return produto;
 };
 
-export const listarRelacionados = (id, limite = 4) => {
-  const produtoOriginal = buscar(id);
-  const todosProdutos = Produto.listarProdutos();
-  
-  // Filtra o pr√≥prio produto e busca por categoria similar
+export const listarRelacionados = async (id, limite = 4) => {
+  const produtoOriginal = await buscar(id);
+  const todosProdutos = await Produto.listarProdutos();
+
   return todosProdutos
     .filter(p => p.id !== produtoOriginal.id && p.categoria === produtoOriginal.categoria)
     .slice(0, limite);
 };
 
-export const atualizar = (id, dados) => {
+export const atualizar = async (id, dados) => {
   if (!id || isNaN(Number(id))) {
-    const error = new Error("ID inv√°lido");
+    const error = new Error("ID inv·lido");
     error.status = 400;
     throw error;
   }
 
-  // Se quiser permitir atualiza√ß√£o parcial, pode validar s√≥ os campos enviados
   if (dados.preco !== undefined && (typeof dados.preco !== 'number' || dados.preco <= 0)) {
-    const error = new Error("Pre√ßo deve ser um n√∫mero maior que zero");
+    const error = new Error("PreÁo deve ser um n˙mero maior que zero");
     error.status = 400;
     throw error;
   }
 
-  const produto = Produto.atualizarProduto(id, dados);
+  const produto = await Produto.atualizarProduto(id, dados);
   if (!produto) {
-    const error = new Error("Produto n√£o encontrado");
+    const error = new Error("Produto n„o encontrado");
     error.status = 404;
     throw error;
   }
   return produto;
 };
 
-export const deletar = (id) => {
+export const deletar = async (id) => {
   if (!id || isNaN(Number(id))) {
-    const error = new Error("ID inv√°lido");
+    const error = new Error("ID inv·lido");
     error.status = 400;
     throw error;
   }
 
-  const sucesso = Produto.deletarProduto(id);
+  const sucesso = await Produto.deletarProduto(id);
   if (!sucesso) {
-    const error = new Error("Produto n√£o encontrado");
+    const error = new Error("Produto n„o encontrado");
     error.status = 404;
     throw error;
   }

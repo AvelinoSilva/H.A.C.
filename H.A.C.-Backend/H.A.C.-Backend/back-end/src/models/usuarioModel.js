@@ -1,47 +1,43 @@
-import bcrypt from 'bcryptjs';
+import { openDb } from '../database.js';
 
-let usuarios = [];
-let idAtual = 1;
+const normalizeUsuario = (row) => row ? ({
+  id: row.id,
+  nome: row.nome,
+  email: row.email,
+  role: row.role,
+  criadoEm: row.criadoEm
+}) : null;
 
-// Seed inicial (um admin e um usuário para teste)
-const seedUsuarios = () => {
-  if (usuarios.length === 0) {
-    usuarios.push({
-      id: idAtual++,
-      nome: "Admin H.A.C.",
-      email: "admin@hacarena.com",
-      senha: bcrypt.hashSync("123456", 10),
-      role: "ADMIN"
-    });
-    usuarios.push({
-      id: idAtual++,
-      nome: "Cliente Demo",
-      email: "cliente@hacarena.com",
-      senha: bcrypt.hashSync("123456", 10),
-      role: "CLIENTE"
-    });
-  }
-};
+export const criarUsuario = async (dados) => {
+  const db = await openDb();
+  const result = await db.run(
+    `INSERT INTO usuarios (nome, email, senha, role, criadoEm)
+     VALUES (?, ?, ?, ?, ?)`,
+    dados.nome,
+    dados.email.toLowerCase(),
+    dados.senha,
+    dados.role || 'CLIENTE',
+    new Date().toISOString()
+  );
 
-seedUsuarios();
-
-export const criarUsuario = (dados) => {
-  const novo = {
-    id: idAtual++,
+  return {
+    id: result.lastID,
     nome: dados.nome,
-    email: dados.email,
-    senha: dados.senha, // será hashada no service
-    role: dados.role || "CLIENTE",
+    email: dados.email.toLowerCase(),
+    role: dados.role || 'CLIENTE',
     criadoEm: new Date().toISOString()
   };
-  usuarios.push(novo);
-  return novo;
 };
 
-export const buscarPorEmail = (email) => {
-  return usuarios.find(u => u.email.toLowerCase() === email.toLowerCase());
+export const buscarPorEmail = async (email) => {
+  const db = await openDb();
+  return db.get(`SELECT * FROM usuarios WHERE email = ?`, email.toLowerCase());
 };
 
-export const listarUsuarios = () => [...usuarios];
+export const listarUsuarios = async () => {
+  const db = await openDb();
+  const usuarios = await db.all(`SELECT id, nome, email, role, criadoEm FROM usuarios`);
+  return usuarios.map(normalizeUsuario);
+};
 
 export default { criarUsuario, buscarPorEmail, listarUsuarios };

@@ -1,8 +1,8 @@
 import * as service from '../services/produtoService.js';
 
-export const criarProduto = (req, res, next) => {
+export const criarProduto = async (req, res, next) => {
   try {
-    const produto = service.criar(req.body);
+    const produto = await service.criar(req.body);
     res.status(201).json({
       success: true,
       data: produto,
@@ -13,10 +13,10 @@ export const criarProduto = (req, res, next) => {
   }
 };
 
-export const listarProdutos = (req, res, next) => {
+export const listarProdutos = async (req, res, next) => {
   try {
     const filtros = req.query;
-    const produtos = service.listar(filtros);
+    const produtos = await service.listar(filtros);
     res.json({
       success: true,
       data: produtos,
@@ -27,9 +27,9 @@ export const listarProdutos = (req, res, next) => {
   }
 };
 
-export const buscarProduto = (req, res, next) => {
+export const buscarProduto = async (req, res, next) => {
   try {
-    const produto = service.buscar(req.params.id);
+    const produto = await service.buscar(req.params.id);
     res.json({
       success: true,
       data: produto,
@@ -40,10 +40,10 @@ export const buscarProduto = (req, res, next) => {
   }
 };
 
-export const obterRelacionados = (req, res, next) => {
+export const obterRelacionados = async (req, res, next) => {
   try {
     const { limite } = req.query;
-    const relacionados = service.listarRelacionados(req.params.id, parseInt(limite) || 4);
+    const relacionados = await service.listarRelacionados(req.params.id, parseInt(limite) || 4);
     res.json({
       success: true,
       data: relacionados,
@@ -54,9 +54,9 @@ export const obterRelacionados = (req, res, next) => {
   }
 };
 
-export const atualizarProduto = (req, res, next) => {
+export const atualizarProduto = async (req, res, next) => {
   try {
-    const produto = service.atualizar(req.params.id, req.body);
+    const produto = await service.atualizar(req.params.id, req.body);
     res.json({
       success: true,
       data: produto,
@@ -67,9 +67,9 @@ export const atualizarProduto = (req, res, next) => {
   }
 };
 
-export const deletarProduto = (req, res, next) => {
+export const deletarProduto = async (req, res, next) => {
   try {
-    service.deletar(req.params.id);
+    await service.deletar(req.params.id);
     res.json({
       success: true,
       message: "Produto deletado"

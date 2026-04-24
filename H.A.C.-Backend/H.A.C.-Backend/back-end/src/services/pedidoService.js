@@ -1,6 +1,6 @@
 import * as Pedido from '../models/pedidoModel.js';
 
-export const criar = (dados, usuario) => {
+export const criar = async (dados, usuario) => {
   if (!dados.total || dados.total <= 0) {
     const error = new Error("Total do pedido deve ser maior que zero");
     error.status = 400;
@@ -16,12 +16,12 @@ export const criar = (dados, usuario) => {
   return Pedido.criarPedido(dados, usuario);
 };
 
-export const listar = () => {
+export const listar = async () => {
   return Pedido.listarPedidos();
 };
 
-export const buscar = (id) => {
-  const pedido = Pedido.buscarPorId(id);
+export const buscar = async (id) => {
+  const pedido = await Pedido.buscarPorId(id);
   if (!pedido) {
     const error = new Error("Pedido não encontrado");
     error.status = 404;
@@ -30,12 +30,12 @@ export const buscar = (id) => {
   return pedido;
 };
 
-export const listarPorUsuario = (usuarioId) => {
+export const listarPorUsuario = async (usuarioId) => {
   return Pedido.listarPorUsuario(usuarioId);
 };
 
-export const atualizarStatus = (id, novoStatus, eventoInfo) => {
-  const pedido = Pedido.atualizarStatus(id, novoStatus, eventoInfo);
+export const atualizarStatus = async (id, novoStatus, eventoInfo) => {
+  const pedido = await Pedido.atualizarStatus(id, novoStatus, eventoInfo);
   if (!pedido) {
     const error = new Error("Pedido não encontrado");
     error.status = 404;

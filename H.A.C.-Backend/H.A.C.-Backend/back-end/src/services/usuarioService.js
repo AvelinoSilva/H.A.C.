@@ -16,7 +16,7 @@ export const registrar = async (dados) => {
   if (!dados.senha || dados.senha.length < 6)
     throw new Error("Senha deve ter no mínimo 6 caracteres");
 
-  const existe = Usuario.buscarPorEmail(dados.email);
+  const existe = await Usuario.buscarPorEmail(dados.email);
   if (existe) {
     const error = new Error("E-mail já cadastrado");
     error.status = 409;
@@ -25,7 +25,7 @@ export const registrar = async (dados) => {
 
   const senhaHash = await bcrypt.hash(dados.senha, 10);
 
-  const usuario = Usuario.criarUsuario({
+  const usuario = await Usuario.criarUsuario({
     ...dados,
     senha: senhaHash
   });
@@ -46,7 +46,7 @@ export const login = async (email, senha) => {
     throw new Error("JWT_SECRET não definido no .env");
   }
 
-  const usuario = Usuario.buscarPorEmail(email);
+  const usuario = await Usuario.buscarPorEmail(email);
   if (!usuario) {
     const error = new Error("E-mail ou senha inválidos");
     error.status = 401;
