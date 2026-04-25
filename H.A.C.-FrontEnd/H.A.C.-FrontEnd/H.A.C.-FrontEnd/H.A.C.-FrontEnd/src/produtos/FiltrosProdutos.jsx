@@ -19,7 +19,8 @@ const FiltrosProdutos = ({ filtros, setFiltros }) => {
     'Mousepads',
     'Streaming',
     'Cadeiras',
-    'Acessórios'
+    'Acessórios',
+    'Notebooks'
   ];
   const marcas = [
     'Todos', 

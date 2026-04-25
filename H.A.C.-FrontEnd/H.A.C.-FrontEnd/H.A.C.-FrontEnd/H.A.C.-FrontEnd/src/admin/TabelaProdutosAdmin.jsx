@@ -48,6 +48,7 @@ const TabelaProdutosAdmin = ({ produtos, onAtualizar }) => {
   const categorias = [
     'Teclados', 
     'Mouses', 
+    'Mousepads',
     'Headsets', 
     'Monitores', 
     'Acessórios', 
@@ -60,7 +61,8 @@ const TabelaProdutosAdmin = ({ produtos, onAtualizar }) => {
     'Placas-mãe',
     'Gabinetes',
     'Coolers',
-    'Streaming'
+    'Streaming',
+    'Notebooks'
   ];
 
   const marcasDisponiveis = [

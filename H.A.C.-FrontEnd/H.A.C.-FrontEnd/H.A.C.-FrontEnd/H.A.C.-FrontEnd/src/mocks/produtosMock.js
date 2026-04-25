@@ -170,6 +170,246 @@ export const PRODUTOS_MOCK = [
     destaque: false,
     novo: false,
     maisVendido: true
+  },
+
+  // Cadeiras
+  {
+    id: 8,
+    nome: "Cadeira Gamer H.A.C. Throne Black",
+    categoria: "Cadeiras",
+    marca: "H.A.C.",
+    preco: 1299.00,
+    nota: 4.7,
+    estoque: 5,
+    imagem: "https://placehold.co/400x400/101218/00f2ff?text=Cadeira+Throne",
+    descricaoCurta: "Cadeira ergonômica com inclinação de 180° e braços 4D.",
+    descricaoCompleta: "Conforto absoluto para longas sessões de jogo. A H.A.C. Throne possui estrutura de aço, espuma de alta densidade e revestimento em couro sintético premium.",
+    especificacoes: {
+      "Peso Suportado": "Até 150kg",
+      "Inclinação": "90° a 180°",
+      "Braços": "Ajuste 4D",
+      "Cilindro": "Classe 4",
+      "Base": "Alumínio Reforçado"
+    },
+    destaque: true,
+    novo: true,
+    maisVendido: false
+  },
+
+  // Processadores
+  {
+    id: 9,
+    nome: "Processador Intel Core i9-13900K",
+    categoria: "Processadores",
+    marca: "Intel",
+    preco: 3899.00,
+    nota: 5.0,
+    estoque: 3,
+    imagem: "https://placehold.co/400x400/101218/00f2ff?text=Core+i9+13900K",
+    descricaoCurta: "Processador de 24 núcleos e 32 threads com boost até 5.8GHz.",
+    descricaoCompleta: "O auge da performance para gaming e criação de conteúdo. Com arquitetura híbrida de performance, o i9-13900K entrega resultados incríveis em qualquer tarefa.",
+    especificacoes: {
+      "Núcleos": "24 (8P + 16E)",
+      "Threads": "32",
+      "Frequência Turbo": "5.8 GHz",
+      "Cache L3": "36 MB",
+      "TDP": "125W"
+    },
+    destaque: false,
+    novo: false,
+    maisVendido: false
+  },
+
+  // Placas de Vídeo
+  {
+    id: 10,
+    nome: "NVIDIA GeForce RTX 4080 Super",
+    categoria: "Placas de Vídeo",
+    marca: "NVIDIA",
+    preco: 7499.00,
+    nota: 4.9,
+    estoque: 2,
+    imagem: "https://placehold.co/400x400/101218/00f2ff?text=RTX+4080+Super",
+    descricaoCurta: "Placa de vídeo com 16GB GDDR6X e tecnologia DLSS 3.",
+    descricaoCompleta: "Potência extrema para 4K e Ray Tracing. A RTX 4080 Super oferece a arquitetura Ada Lovelace para uma experiência visual sem precedentes.",
+    especificacoes: {
+      "Memória": "16GB GDDR6X",
+      "Interface": "256-bit",
+      "CUDA Cores": "10240",
+      "Saídas": "3x DisplayPort, 1x HDMI",
+      "Recomendação de Fonte": "750W"
+    },
+    destaque: true,
+    novo: true,
+    maisVendido: false
+  },
+
+  // Memória RAM
+  {
+    id: 11,
+    nome: "Memória RAM Corsair Vengeance 32GB DDR5",
+    categoria: "Memória RAM",
+    marca: "Corsair",
+    preco: 899.00,
+    nota: 4.8,
+    estoque: 15,
+    imagem: "https://placehold.co/400x400/101218/00f2ff?text=DDR5+32GB",
+    descricaoCurta: "Kit 2x16GB DDR5 6000MHz com iluminação RGB.",
+    descricaoCompleta: "Velocidade de próxima geração para seu setup. As memórias Corsair Vengeance DDR5 oferecem frequências altíssimas e latência otimizada.",
+    especificacoes: {
+      "Capacidade": "32GB (2x16GB)",
+      "Tipo": "DDR5",
+      "Frequência": "6000MHz",
+      "Latência": "CL36",
+      "Iluminação": "RGB iCUE"
+    },
+    destaque: false,
+    novo: true,
+    maisVendido: true
+  },
+
+  // Armazenamento
+  {
+    id: 12,
+    nome: "SSD NVMe WD Black SN850X 2TB",
+    categoria: "Armazenamento",
+    marca: "Western Digital",
+    preco: 1150.00,
+    nota: 4.9,
+    estoque: 7,
+    imagem: "https://placehold.co/400x400/101218/00f2ff?text=WD+Black+2TB",
+    descricaoCurta: "SSD NVMe Gen4 com leitura de até 7.300 MB/s.",
+    descricaoCompleta: "O SSD definitivo para o seu PS5 ou PC Gamer. O SN850X reduz drasticamente os tempos de carregamento e elimina gargalos de armazenamento.",
+    especificacoes: {
+      "Capacidade": "2TB",
+      "Interface": "PCIe Gen4 x4",
+      "Leitura": "7.300 MB/s",
+      "Gravação": "6.600 MB/s",
+      "Formato": "M.2 2280"
+    },
+    destaque: true,
+    novo: false,
+    maisVendido: false
+  },
+
+  // Fontes
+  {
+    id: 13,
+    nome: "Fonte Corsair RM850x 80 Plus Gold",
+    categoria: "Fontes",
+    marca: "Corsair",
+    preco: 950.00,
+    nota: 4.9,
+    estoque: 10,
+    imagem: "https://placehold.co/400x400/101218/00f2ff?text=RM850x",
+    descricaoCurta: "Fonte modular de 850W com certificação Gold.",
+    descricaoCompleta: "Energia estável e silenciosa para seu PC. Totalmente modular para um cable management limpo e eficiente.",
+    especificacoes: {
+      "Potência": "850W",
+      "Certificação": "80 Plus Gold",
+      "Cabeamento": "Full Modular",
+      "Ventoinha": "135mm MagLev",
+      "Garantia": "10 anos"
+    },
+    destaque: false,
+    novo: false,
+    maisVendido: false
+  },
+
+  // Placas-mãe
+  {
+    id: 14,
+    nome: "Placa-Mãe ASUS ROG Strix Z790-E",
+    categoria: "Placas-mãe",
+    marca: "ASUS",
+    preco: 3200.00,
+    nota: 4.8,
+    estoque: 4,
+    imagem: "https://placehold.co/400x400/101218/00f2ff?text=ROG+Z790-E",
+    descricaoCurta: "Placa-mãe LGA 1700 com suporte a DDR5 e WiFi 6E.",
+    descricaoCompleta: "A base perfeita para processadores Intel de 13ª e 14ª geração. Oferece VRM robusto e dissipadores massivos para overclocking.",
+    especificacoes: {
+      "Socket": "LGA 1700",
+      "Chipset": "Intel Z790",
+      "Memória": "4x DDR5 (Até 192GB)",
+      "Rede": "WiFi 6E + 2.5Gb Ethernet",
+      "Áudio": "ROG SupremeFX 7.1"
+    },
+    destaque: false,
+    novo: true,
+    maisVendido: false
+  },
+
+  // Gabinetes
+  {
+    id: 15,
+    nome: "Gabinete Lian Li O11 Dynamic EVO",
+    categoria: "Gabinetes",
+    marca: "Lian Li",
+    preco: 1450.00,
+    nota: 4.9,
+    estoque: 6,
+    imagem: "https://placehold.co/400x400/101218/00f2ff?text=O11+Dynamic",
+    descricaoCurta: "Gabinete Mid-Tower modular com vidros temperados.",
+    descricaoCompleta: "O gabinete mais icônico do mercado. Design de câmara dupla que oferece um visual incrível e excelente fluxo de ar.",
+    especificacoes: {
+      "Formato": "Mid-Tower",
+      "Suporte Placa-Mãe": "E-ATX, ATX, Micro-ATX",
+      "Material": "Alumínio e Vidro Temperado",
+      "Suporte Radiador": "Até 3x 360mm",
+      "Dimensões": "459 x 285 x 465 mm"
+    },
+    destaque: true,
+    novo: false,
+    maisVendido: true
+  },
+
+  // Coolers
+  {
+    id: 16,
+    nome: "Water Cooler NZXT Kraken Elite 360",
+    categoria: "Coolers",
+    marca: "NZXT",
+    preco: 1890.00,
+    nota: 4.7,
+    estoque: 8,
+    imagem: "https://placehold.co/400x400/101218/00f2ff?text=Kraken+Elite",
+    descricaoCurta: "Water cooler de 360mm com tela LCD customizável.",
+    descricaoCompleta: "Refrigeração de alta performance com estilo inigualável. A tela LCD permite exibir temperaturas, GIFs ou imagens personalizadas.",
+    especificacoes: {
+      "Tamanho Radiador": "360mm",
+      "Ventoinhas": "3x F120P Static Pressure",
+      "Tela LCD": "2.36\" 640x640",
+      "Compatibilidade": "Intel e AMD",
+      "Controle": "Software NZXT CAM"
+    },
+    destaque: false,
+    novo: true,
+    maisVendido: false
+  },
+
+  // Streaming
+  {
+    id: 17,
+    nome: "Microfone Shure SM7B",
+    categoria: "Streaming",
+    marca: "Shure",
+    preco: 3200.00,
+    nota: 5.0,
+    estoque: 5,
+    imagem: "https://placehold.co/400x400/101218/00f2ff?text=Shure+SM7B",
+    descricaoCurta: "Microfone dinâmico profissional para streaming e podcasts.",
+    descricaoCompleta: "O padrão da indústria para captura de voz. Oferece um som quente e rico que é perfeito para criadores de conteúdo sérios.",
+    especificacoes: {
+      "Tipo": "Dinâmico",
+      "Padrão Polar": "Cardioide",
+      "Conexão": "XLR",
+      "Resposta": "50Hz - 20kHz",
+      "Acessórios": "Pop Filter incluso"
+    },
+    destaque: true,
+    novo: false,
+    maisVendido: false
   }
 ];
 
