@@ -85,12 +85,9 @@ const CardPedido = ({ pedido }) => {
         </div>
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
-        <Link to={`/pedidos/${pedido.id}`} className="btn btn-outline" style={{ padding: '8px 16px', fontSize: '0.9rem' }}>
-          Detalhes do Pedido
-        </Link>
-        <Link to={`/pedidos/${pedido.id}/rastreamento`} className="btn btn-primary" style={{ padding: '8px 16px', fontSize: '0.9rem' }}>
-          Acompanhar Entrega <ArrowRight size={16} />
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Link to={`/pedidos/${pedido.id}`} className="btn btn-primary" style={{ padding: '12px 32px', fontSize: '1rem' }}>
+          Detalhes do Pedido <ArrowRight size={18} style={{ marginLeft: '8px' }} />
         </Link>
       </div>
     </div>

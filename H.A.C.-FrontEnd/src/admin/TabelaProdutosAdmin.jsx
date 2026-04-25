@@ -22,24 +22,25 @@ const TabelaProdutosAdmin = ({ produtos, onAtualizar }) => {
     imagem: '',
     especificacoes: '',
     avaliacao: 5,
-    maisVendido: false
+    maisVendido: false,
+    destaque: false
   });
 
   // Função para calcular desconto
   const handlePriceChange = (e) => {
     const { name, value } = e.target;
-    let newFormData = { ...formData, [name]: value };
+    const newFormData = { ...formData, [name]: value };
 
-    if (name === 'preco' || name === 'porcentagemDesconto') {
-      const pOriginal = name === 'preco' ? parseFloat(value) : parseFloat(formData.preco);
-      const percent = name === 'porcentagemDesconto' ? parseFloat(value) : parseFloat(formData.porcentagemDesconto);
+    // Calcula o preço com desconto em tempo real
+    const pOriginal = parseFloat(name === 'preco' ? value : formData.preco) || 0;
+    const percent = parseFloat(name === 'porcentagemDesconto' ? value : formData.porcentagemDesconto) || 0;
 
-      if (pOriginal > 0 && percent > 0 && percent < 100) {
-        const pDesconto = pOriginal - (pOriginal * (percent / 100));
-        newFormData.precoDesconto = pDesconto.toFixed(2);
-      } else {
-        newFormData.precoDesconto = '';
-      }
+    if (pOriginal > 0 && percent > 0) {
+      const valorDesconto = pOriginal * (percent / 100);
+      const pFinal = pOriginal - valorDesconto;
+      newFormData.precoDesconto = pFinal.toFixed(2);
+    } else {
+      newFormData.precoDesconto = '';
     }
 
     setFormData(newFormData);
@@ -102,8 +103,8 @@ const TabelaProdutosAdmin = ({ produtos, onAtualizar }) => {
 
       setFormData({
         nome: produto.nome,
-        preco: produto.preco,
-        precoDesconto: produto.precoDesconto || '',
+        preco: produto.precoOriginal || produto.preco,
+        precoDesconto: produto.precoOriginal ? produto.preco : '',
         porcentagemDesconto: produto.porcentagemDesconto || '',
         categoria: produto.categoria,
         marca: produto.marca || 'H.A.C.',
@@ -213,11 +214,22 @@ const TabelaProdutosAdmin = ({ produtos, onAtualizar }) => {
         }
       }
 
+      const pBase = parseFloat(formData.preco);
+      const pPercent = parseFloat(formData.porcentagemDesconto) || 0;
+      
+      let precoFinal = pBase;
+      let precoOriginal = null;
+
+      if (pPercent > 0) {
+        precoOriginal = pBase;
+        precoFinal = pBase - (pBase * (pPercent / 100));
+      }
+
       const dadosProduto = {
         nome: formData.nome,
-        preco: parseFloat(formData.preco),
-        precoDesconto: formData.precoDesconto ? parseFloat(formData.precoDesconto) : null,
-        porcentagemDesconto: formData.porcentagemDesconto ? parseInt(formData.porcentagemDesconto) : null,
+        preco: precoFinal,
+        precoOriginal: precoOriginal,
+        porcentagemDesconto: pPercent > 0 ? pPercent : null,
         categoria: formData.categoria,
         estoque: parseInt(formData.estoque),
         imagem: formData.imagem,
@@ -300,25 +312,6 @@ const TabelaProdutosAdmin = ({ produtos, onAtualizar }) => {
                     <div>
                       <div style={{ fontWeight: '700', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
                         {produto.nome}
-                        {produto.maisVendido && (
-                          <span style={{ 
-                            fontSize: '0.55rem', 
-                            background: 'var(--primary)', 
-                            color: '#000', 
-                            padding: '4px 8px', 
-                            borderRadius: '4px', 
-                            fontWeight: '900', 
-                            textTransform: 'uppercase',
-                            textAlign: 'center',
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            lineHeight: '1.2',
-                            minWidth: '60px'
-                          }}>
-                            Mais Vendido
-                          </span>
-                        )}
                         {(produto.precoDesconto || (produto.precoOriginal && produto.precoOriginal > produto.preco)) && (
                           <span style={{ 
                             fontSize: '0.55rem', 
@@ -400,7 +393,7 @@ const TabelaProdutosAdmin = ({ produtos, onAtualizar }) => {
         }}>
           <div className="glass animate-in" style={{
             width: '100%',
-            maxWidth: '700px',
+            maxWidth: '900px', // Aumentado de 700px para 900px
             maxHeight: '90vh',
             overflowY: 'auto',
             padding: '40px',
@@ -529,58 +522,64 @@ const TabelaProdutosAdmin = ({ produtos, onAtualizar }) => {
                 </div>
               </div>
 
-              <div className="form-group glass p-3 rounded-3 border-secondary d-flex align-items-center gap-3">
-                <input 
-                  type="checkbox" 
-                  id="maisVendido"
-                  name="maisVendido"
-                  checked={formData.maisVendido}
-                  onChange={handleInputChange}
-                  className="form-check-input"
-                  style={{ width: '20px', height: '20px', cursor: 'pointer' }}
-                />
-                <label htmlFor="maisVendido" style={{ fontSize: '0.9rem', color: 'var(--text-white)', cursor: 'pointer', marginBottom: 0 }}>
-                  Marcar como <strong>Mais Vendido</strong> (Aparecerá no filtro de status)
-                </label>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                <div className="form-group">
+                  <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.85rem', color: 'var(--text-muted)' }}>Estoque</label>
+                  <input 
+                    type="number" 
+                    name="estoque"
+                    min="0"
+                    value={formData.estoque}
+                    onChange={handleInputChange}
+                    className="form-control bg-dark border-secondary text-white"
+                    placeholder="0"
+                    required
+                  />
+                </div>
+                <div className="form-group d-flex align-items-end">
+                  <div style={{ display: 'flex', gap: '15px', width: '100%' }}>
+                    <div className="form-group glass p-2 px-3 rounded-3 border-secondary d-flex align-items-center gap-3 flex-grow-1" style={{ height: 'calc(1.5em + 1.5rem + 2px)' }}>
+                      <input 
+                        type="checkbox" 
+                        id="maisVendido"
+                        name="maisVendido"
+                        checked={formData.maisVendido}
+                        onChange={handleInputChange}
+                        className="form-check-input"
+                        style={{ width: '20px', height: '20px', cursor: 'pointer' }}
+                      />
+                      <label htmlFor="maisVendido" style={{ fontSize: '0.9rem', color: 'var(--text-white)', cursor: 'pointer', marginBottom: 0 }}>
+                        <strong>Mais Vendido</strong>
+                      </label>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <div className="form-group">
-                <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.85rem', color: 'var(--text-muted)' }}>Estoque</label>
-                <input 
-                  type="number" 
-                  name="estoque"
-                  min="0"
-                  value={formData.estoque}
-                  onChange={handleInputChange}
-                  className="form-control bg-dark border-secondary text-white"
-                  placeholder="0"
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.85rem', color: 'var(--text-muted)' }}>Descrição</label>
-                <textarea 
-                  name="descricao"
-                  value={formData.descricao}
-                  onChange={handleInputChange}
-                  rows="3"
-                  className="form-control bg-dark border-secondary text-white"
-                  placeholder="Detalhes sobre o produto..."
-                  required
-                ></textarea>
-              </div>
-
-              <div className="form-group">
-                <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.85rem', color: 'var(--text-muted)' }}>Especificações Técnicas</label>
-                <textarea 
-                  name="especificacoes"
-                  value={formData.especificacoes}
-                  onChange={handleInputChange}
-                  rows="4"
-                  className="form-control bg-dark border-secondary text-white"
-                  placeholder="Fale mais sobre o produto..."
-                ></textarea>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                <div className="form-group">
+                  <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.85rem', color: 'var(--text-muted)' }}>Descrição</label>
+                  <textarea 
+                    name="descricao"
+                    value={formData.descricao}
+                    onChange={handleInputChange}
+                    rows="6"
+                    className="form-control bg-dark border-secondary text-white"
+                    placeholder="Detalhes sobre o produto..."
+                    required
+                  ></textarea>
+                </div>
+                <div className="form-group">
+                  <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.85rem', color: 'var(--text-muted)' }}>Especificações Técnicas</label>
+                  <textarea 
+                    name="especificacoes"
+                    value={formData.especificacoes}
+                    onChange={handleInputChange}
+                    rows="6"
+                    className="form-control bg-dark border-secondary text-white"
+                    placeholder="Fale mais sobre o produto..."
+                  ></textarea>
+                </div>
               </div>
 
               <div className="form-group">

@@ -8,9 +8,9 @@ import { useCarrinho } from '../contextos/CarrinhoContexto';
 const CardProduto = ({ produto }) => {
   const { adicionarAoCarrinho } = useCarrinho();
   
-  // Lógica de Preço com Desconto
-  const precoFinal = produto.precoDesconto && produto.precoDesconto > 0 ? produto.precoDesconto : produto.preco;
-  const precoAnterior = precoFinal < produto.preco ? produto.preco : null;
+  // Lógica de Preço com Desconto - Padronizada
+  const precoFinal = produto.preco;
+  const precoAnterior = (produto.precoOriginal && produto.precoOriginal > produto.preco) ? produto.precoOriginal : null;
   const porcentagem = produto.porcentagemDesconto || (precoAnterior ? Math.round(((precoAnterior - precoFinal) / precoAnterior) * 100) : null);
 
   const handleAdd = (e) => {

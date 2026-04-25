@@ -8,7 +8,7 @@ import PRODUTOS_MOCK from '../mocks/produtosMock';
  * Agora suporta persistência local via localStorage para o modo MOCK
  */
 
-const STORAGE_KEY = 'hac_arena_produtos';
+const STORAGE_KEY = 'hac_arena_produtos_v3'; // Incrementado para v3 para aplicar lógica estrita de descontos
 
 // Inicializar localStorage com mocks se estiver vazio e nunca foi inicializado antes
 const inicializarStorage = () => {
@@ -63,17 +63,26 @@ const listarProdutos = async (filtros = {}) => {
       produtos = produtos.filter(p => p.preco <= filtros.precoMax);
     }
 
+    // Aplicar Filtro de Marca
+    if (filtros.marca && filtros.marca !== 'Todos') {
+      produtos = produtos.filter(p => p.marca === filtros.marca);
+      console.log('[Servico] Produtos após filtro de marca:', produtos.length);
+    }
+
     // Aplicar Filtro de Mais Vendidos
     if (filtros.apenasMaisVendidos) {
       produtos = produtos.filter(p => p.maisVendido === true);
     }
 
-    // Aplicar Filtro de Destaques (Produtos em Desconto)
+    // Aplicar Filtro de Destaques (Produtos com Desconto)
     if (filtros.apenasDestaques) {
-      produtos = produtos.filter(p => 
-        (p.precoDesconto && p.precoDesconto < p.preco) || 
-        (p.precoOriginal && p.precoOriginal > p.preco)
-      );
+      produtos = produtos.filter(p => {
+        const preco = parseFloat(p.preco);
+        const precoOriginal = p.precoOriginal ? parseFloat(p.precoOriginal) : null;
+        const temDesconto = (precoOriginal && precoOriginal > preco) || (p.porcentagemDesconto && p.porcentagemDesconto > 0);
+        return temDesconto;
+      });
+      console.log('[Servico] Produtos após filtro de destaques:', produtos.length);
     }
 
     // Aplicar Ordenação
@@ -93,7 +102,22 @@ const listarProdutos = async (filtros = {}) => {
           break;
 
         case 'destaque':
-          produtos.sort((a, b) => (b.destaque ? 1 : 0) - (a.destaque ? 1 : 0));
+          // Prioriza produtos com desconto, e por fim os mais novos (ID maior)
+          produtos.sort((a, b) => {
+            const precoA = parseFloat(a.preco);
+            const precoOriginalA = a.precoOriginal ? parseFloat(a.precoOriginal) : null;
+            const temDescontoA = (precoOriginalA && precoOriginalA > precoA) || (a.porcentagemDesconto && a.porcentagemDesconto > 0);
+
+            const precoB = parseFloat(b.preco);
+            const precoOriginalB = b.precoOriginal ? parseFloat(b.precoOriginal) : null;
+            const temDescontoB = (precoOriginalB && precoOriginalB > precoB) || (b.porcentagemDesconto && b.porcentagemDesconto > 0);
+            
+            if (temDescontoB && !temDescontoA) return 1;
+            if (!temDescontoB && temDescontoA) return -1;
+            
+            // Se ambos têm desconto ou ambos não têm, decide pelo ID mais novo
+            return b.id - a.id;
+          });
           break;
 
         default:
@@ -157,9 +181,8 @@ const criarProduto = async (dados) => {
     const novoProduto = {
       ...dados,
       id: novoId,
-      nota: 0,
-      avaliacoes: 0,
-      destaque: false
+      nota: dados.nota || 0,
+      avaliacoes: dados.avaliacoes || 0
     };
 
     produtos.push(novoProduto);

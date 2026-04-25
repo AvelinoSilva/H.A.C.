@@ -20,13 +20,18 @@ const Home = () => {
       try {
         const data = await produtosServico.listarProdutos({ ordenacao: 'destaque' });
         
-        // Ofertas: Produtos com desconto
-        const produtosComDesconto = data.filter(p => p.precoDesconto && p.precoDesconto > 0 && p.precoDesconto < p.preco);
-        setOfertas(produtosComDesconto.slice(0, 4));
+        // Ofertas: Produtos com desconto (precoOriginal > preco ou porcentagemDesconto > 0)
+        // O serviço já retorna ordenado por destaque (com desconto primeiro e ID DESC)
+        const produtosComDesconto = data.filter(p => {
+          const pAtual = parseFloat(p.preco);
+          const pOrig = p.precoOriginal ? parseFloat(p.precoOriginal) : null;
+          return (pOrig && pOrig > pAtual) || (p.porcentagemDesconto && p.porcentagemDesconto > 0);
+        });
+        setOfertas(produtosComDesconto.slice(0, 8));
 
-        // Mais Vendidos: Produtos marcados como maisVendido ou com nota alta, excluindo os que já estão em ofertas se possível
+        // Mais Vendidos: Produtos marcados como maisVendido ou com nota alta
         const maisVendidos = data.filter(p => p.maisVendido || p.nota >= 4.5);
-        setDestaques(maisVendidos.slice(0, 8));
+        setDestaques(maisVendidos.slice(0, 12));
 
       } catch (error) {
         console.error('Erro ao carregar dados da Home:', error);

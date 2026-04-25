@@ -1,7 +1,7 @@
 import React from 'react';
 import { FilterX } from 'lucide-react';
 
-const FiltrosProdutos = ({ filtros, setFiltros }) => {
+const FiltrosProdutos = ({ filtros, setFiltros, marcas = [] }) => {
   const categorias = [
     'Todos', 
     'Placas de Vídeo',
@@ -21,25 +21,6 @@ const FiltrosProdutos = ({ filtros, setFiltros }) => {
     'Cadeiras',
     'Acessórios',
     'Notebooks'
-  ];
-  const marcas = [
-    'Todos', 
-    'H.A.C.', 
-    'Logitech', 
-    'Razer', 
-    'HyperX', 
-    'Corsair', 
-    'Redragon', 
-    'SteelSeries',
-    'Intel', 
-    'AMD', 
-    'NVIDIA', 
-    'ASUS', 
-    'Gigabyte', 
-    'MSI', 
-    'Kingston', 
-    'Western Digital', 
-    'Samsung'
   ];
 
   const handleChange = (e) => {

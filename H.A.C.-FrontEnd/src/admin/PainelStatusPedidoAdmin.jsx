@@ -99,9 +99,6 @@ const PainelStatusPedidoAdmin = ({ pedido, onStatusAtualizado, fechar }) => {
           })}
         </div>
 
-        <p style={{ marginTop: '32px', fontSize: '0.8rem', color: 'var(--text-secondary)', fontStyle: 'italic', textAlign: 'center', borderTop: '1px solid var(--border-color)', paddingTop: '20px' }}>
-          Nota: Em um cenário real, esta mudança dispara um evento via Kafka/RabbitMQ que é transmitido ao cliente via WebSocket/SSE.
-        </p>
       </div>
     </div>
   );

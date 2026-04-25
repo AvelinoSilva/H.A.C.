@@ -105,6 +105,7 @@ export const PRODUTOS_MOCK = [
     categoria: "Headsets",
     marca: "H.A.C.",
     preco: 299.90,
+    precoOriginal: 349.00,
     nota: 4.6,
     estoque: 12,
     imagem: "https://placehold.co/400x400/101218/00f2ff?text=Headset+Arena",
@@ -191,7 +192,7 @@ export const PRODUTOS_MOCK = [
       "Cilindro": "Classe 4",
       "Base": "Alumínio Reforçado"
     },
-    destaque: true,
+    destaque: false,
     novo: true,
     maisVendido: false
   },
@@ -227,6 +228,7 @@ export const PRODUTOS_MOCK = [
     categoria: "Placas de Vídeo",
     marca: "NVIDIA",
     preco: 7499.00,
+    precoOriginal: 8299.00,
     nota: 4.9,
     estoque: 2,
     imagem: "https://placehold.co/400x400/101218/00f2ff?text=RTX+4080+Super",
@@ -275,6 +277,7 @@ export const PRODUTOS_MOCK = [
     categoria: "Armazenamento",
     marca: "Western Digital",
     preco: 1150.00,
+    precoOriginal: 1350.00,
     nota: 4.9,
     estoque: 7,
     imagem: "https://placehold.co/400x400/101218/00f2ff?text=WD+Black+2TB",
@@ -359,7 +362,7 @@ export const PRODUTOS_MOCK = [
       "Suporte Radiador": "Até 3x 360mm",
       "Dimensões": "459 x 285 x 465 mm"
     },
-    destaque: true,
+    destaque: false,
     novo: false,
     maisVendido: true
   },
@@ -407,7 +410,7 @@ export const PRODUTOS_MOCK = [
       "Resposta": "50Hz - 20kHz",
       "Acessórios": "Pop Filter incluso"
     },
-    destaque: true,
+    destaque: false,
     novo: false,
     maisVendido: false
   }

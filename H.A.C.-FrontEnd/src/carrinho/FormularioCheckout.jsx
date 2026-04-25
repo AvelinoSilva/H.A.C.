@@ -4,7 +4,25 @@ import { CreditCard, QrCode, FileText } from 'lucide-react';
 const FormularioCheckout = ({ form, setForm }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
+    let filteredValue = value;
+
+    // Restrição de caracteres conforme o campo
+    if (['nome', 'cidade', 'estado', 'bairro'].includes(name)) {
+      // Apenas letras e espaços
+      filteredValue = value.replace(/[0-9]/g, '');
+    } else if (['telefone', 'cpf', 'cep', 'numero', 'cartaoNumero', 'cartaoCVV'].includes(name)) {
+      // Apenas números
+      filteredValue = value.replace(/\D/g, '');
+      
+      // Limites de caracteres e formatação básica
+      if (name === 'cpf') filteredValue = filteredValue.slice(0, 11);
+      if (name === 'cep') filteredValue = filteredValue.slice(0, 8);
+      if (name === 'telefone') filteredValue = filteredValue.slice(0, 11);
+      if (name === 'cartaoNumero') filteredValue = filteredValue.slice(0, 16);
+      if (name === 'cartaoCVV') filteredValue = filteredValue.slice(0, 3);
+    }
+
+    setForm(prev => ({ ...prev, [name]: filteredValue }));
   };
 
   const renderIconeMetodo = (metodo) => {
@@ -56,8 +74,8 @@ const FormularioCheckout = ({ form, setForm }) => {
             <input type="text" name="cep" value={form.cep} onChange={handleChange} placeholder="00000-000" required />
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', gridColumn: 'span 2' }}>
-            <label style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Logradouro</label>
-            <input type="text" name="endereco" value={form.endereco} onChange={handleChange} placeholder="Rua, Av, etc." required />
+            <label style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Endereço (Rua, Av.)</label>
+            <input type="text" name="endereco" value={form.endereco} onChange={handleChange} placeholder="Nome da sua rua ou avenida" required />
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <label style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Número</label>

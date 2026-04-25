@@ -47,7 +47,6 @@ const AppRotas = () => {
         {/* Área do Usuário */}
         <Route path="/pedidos" element={<ProtectedRoute><Pedidos /></ProtectedRoute>} />
         <Route path="/pedidos/:id" element={<ProtectedRoute><PedidoDetalhes /></ProtectedRoute>} />
-        <Route path="/pedidos/:id/rastreamento" element={<ProtectedRoute><PedidoDetalhes /></ProtectedRoute>} />
         
         {/* Fallback de Rastreamento (caso acesse sem ID) */}
         <Route path="/rastreamento" element={<ProtectedRoute><Pedidos /></ProtectedRoute>} />

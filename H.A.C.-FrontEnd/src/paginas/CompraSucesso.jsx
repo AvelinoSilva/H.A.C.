@@ -61,40 +61,34 @@ const CompraSucesso = () => {
       }}>
         <div className="glass" style={{ padding: '32px', borderRadius: '24px', textAlign: 'left' }}>
           <div style={{ color: 'var(--primary)', marginBottom: '16px' }}><Package size={32} /></div>
-          <h3 style={{ fontSize: '1.2rem', fontWeight: '700', marginBottom: '8px' }}>Status Inicial</h3>
+          <h3 style={{ fontSize: '1.2rem', fontWeight: '700', marginBottom: '8px' }}>Pedido Confirmado</h3>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
-            Seu pedido está aguardando a confirmação do pagamento. Você receberá atualizações em tempo real.
+            Seu hardware já está garantido! Estamos preparando tudo para o envio mais rápido possível.
           </p>
         </div>
 
         <div className="glass" style={{ padding: '32px', borderRadius: '24px', textAlign: 'left' }}>
           <div style={{ color: 'var(--secondary)', marginBottom: '16px' }}><Truck size={32} /></div>
-          <h3 style={{ fontSize: '1.2rem', fontWeight: '700', marginBottom: '8px' }}>Rastreamento</h3>
+          <h3 style={{ fontSize: '1.2rem', fontWeight: '700', marginBottom: '8px' }}>Acompanhe a Entrega</h3>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
-            Acompanhe a jornada do seu hardware através da nossa timeline de mensageria integrada.
+            Fique por dentro de cada etapa, desde o envio até a chegada do seu novo setup na sua casa.
           </p>
         </div>
       </div>
 
       {/* Botões de Ação */}
       <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'center' }}>
-        <Link to={`/pedidos/${id}`} className="btn btn-primary" style={{ padding: '14px 32px', fontSize: '1.1rem' }}>
-          Acompanhar Pedido <ArrowRight size={20} />
+        <Link to="/catalogo" className="btn btn-primary" style={{ padding: '16px 40px', fontSize: '1.1rem', gap: '12px' }}>
+          <ShoppingBag size={20} /> IR AO CATÁLOGO
         </Link>
-        <Link to="/pedidos" className="btn btn-outline" style={{ padding: '14px 32px', fontSize: '1.1rem' }}>
-          Meus Pedidos
+        <Link to={`/pedidos/${id}`} className="btn btn-outline-primary" style={{ padding: '16px 40px', fontSize: '1.1rem', gap: '12px' }}>
+          <Package size={20} /> VER MEU PEDIDO
         </Link>
-        <Link to="/catalogo" style={{ 
-          width: '100%', 
-          marginTop: '24px', 
-          color: 'var(--text-muted)', 
-          fontSize: '0.95rem',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '8px'
-        }}>
-          <ShoppingBag size={18} /> Continuar comprando na Arena
+      </div>
+
+      <div style={{ marginTop: '32px' }}>
+        <Link to="/pedidos" style={{ color: 'var(--text-muted)', fontSize: '0.95rem', textDecoration: 'underline' }}>
+          Ver histórico de pedidos
         </Link>
       </div>
     </div>

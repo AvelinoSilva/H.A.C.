@@ -40,6 +40,7 @@ const Checkout = () => {
 
     setLoading(true);
     try {
+      const subtotalCalculado = subtotal;
       const dadosCheckout = {
         nome: form.nome,
         email: form.email,
@@ -52,10 +53,10 @@ const Checkout = () => {
         cidade: form.cidade,
         estado: form.estado,
         metodoPagamento: form.pagamento,
-        subtotal: subtotal,
+        subtotal: subtotalCalculado,
         frete: 0,
         desconto: 0,
-        total: subtotal
+        total: subtotalCalculado
       };
 
       const pedidoCriado = await pedidosServico.criarPedidoAPartirDoCarrinho(
@@ -64,9 +65,18 @@ const Checkout = () => {
         usuario
       );
       
-      // Limpar carrinho e redirecionar para página de sucesso
+      console.log('Pedido criado com sucesso:', pedidoCriado);
+
+      // 1. Primeiro limpamos o carrinho
       limparCarrinho();
-      navigate(`/compra-sucesso/${pedidoCriado.id}`);
+      
+      // 2. Depois redirecionamos
+      // Usamos setTimeout apenas para garantir que o estado do carrinho limpando 
+      // não dispare o useEffect de redirecionamento para /carrinho antes de irmos para sucesso
+      setTimeout(() => {
+        navigate(`/compra-sucesso/${pedidoCriado.id}`, { replace: true });
+      }, 100);
+      
     } catch (error) {
       console.error('Erro ao finalizar pedido:', error);
     } finally {

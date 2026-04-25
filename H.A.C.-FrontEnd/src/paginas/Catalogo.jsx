@@ -18,6 +18,7 @@ const Catalogo = () => {
   };
 
   const [produtos, setProdutos] = useState([]);
+  const [marcas, setMarcas] = useState(['Todos']);
   const [loading, setLoading] = useState(true);
   
   const initialParams = getParamsFromUrl();
@@ -33,6 +34,26 @@ const Catalogo = () => {
     apenasMaisVendidos: false,
     apenasDestaques: false
   });
+
+  // Carregar Marcas Disponíveis (Dinâmico)
+  useEffect(() => {
+    const atualizarMarcas = async () => {
+      try {
+        // Busca produtos sem o filtro de marca para saber todas as marcas disponíveis na categoria/busca atual
+        const data = await produtosServico.listarProdutos({
+          categoria: filtros.categoria,
+          busca: filtros.busca
+        });
+        
+        const uniqueMarcas = [...new Set(data.map(p => p.marca).filter(Boolean))];
+        setMarcas(['Todos', ...uniqueMarcas.sort()]);
+      } catch (error) {
+        console.error('Erro ao extrair marcas:', error);
+      }
+    };
+    
+    atualizarMarcas();
+  }, [filtros.categoria, filtros.busca]);
 
   // Atualizar filtros se a URL mudar (categoria ou busca)
   useEffect(() => {
@@ -126,7 +147,7 @@ const Catalogo = () => {
       <div className="row g-4">
         {/* Filtros Lateral */}
         <aside className="col-lg-3">
-          <FiltrosProdutos filtros={filtros} setFiltros={setFiltros} />
+          <FiltrosProdutos filtros={filtros} setFiltros={setFiltros} marcas={marcas} />
         </aside>
 
         {/* Listagem */}

@@ -104,7 +104,7 @@ const TimelinePedido = ({ historico, statusAtual }) => {
             background: 'var(--border-color)'
           }}></div>
 
-          {historico.map((evento, index) => (
+          {historico && historico.map((evento, index) => (
             <div key={index} className="animate-in" style={{ 
               display: 'flex', 
               gap: '24px', 
