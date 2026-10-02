@@ -157,5 +157,4 @@ Projeto desenvolvido no curso de Análise e Desenvolvimento de Sistemas como par
 
 ## Autores
 
-Projeto desenvolvido por alunos do curso de Análise e Desenvolvimento de Sistemas.
-
+Projeto desenvolvido por mim e mais 2 alunos do curso de Análise e Desenvolvimento de Sistemas.
